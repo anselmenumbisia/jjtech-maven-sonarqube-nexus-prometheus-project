@@ -2,7 +2,7 @@
 cp /etc/sysctl.conf /root/sysctl.conf_backup
 cat <<EOT> /etc/sysctl.conf
 vm.max_map_count=262144
-fs.file-max=65536
+fs.file-max=65536=vhttps://github.com/alfabarry29/jjtech-maven-sonarqube-nexus-prometheus-project.githttps://github.com/alfabarry29/jjtech-maven-sonarqube-nexus-prometheus-project.githttps://github.com/alfabarry29/jjtech-maven-sonarqube-nexus-prometheus-project.githttps://github.com/alfabarry29/jjtech-maven-sonarqube-nexus-prometheus-project.githttps://github.com/alfabarry29/jjtech-maven-sonarqube-nexus-prometheus-project.githttps://github.com/alfabarry29/jjtech-maven-sonarqube-nexus-prometheus-project.git
 ulimit -n 65536
 ulimit -u 4096
 EOT

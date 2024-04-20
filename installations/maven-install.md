@@ -24,7 +24,7 @@ The following are instructions for installing Apache Maven and Java 8 on an Amaz
 
     ```
     sudo yum install java-1.8.0-devel -y
-    ```
+
 4. Install Java11 for SonarQube
    ```
    sudo amazon-linux-extras install java-openjdk11

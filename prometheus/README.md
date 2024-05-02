@@ -142,7 +142,7 @@ sudo systemctl restart alertmanager
 ```
 - Edit prometheus config file to call an alertmanager rule file called **alertmanager-rules.yml**
   ```
-  sudo nano /etc/prometheus/prometheus.yaml
+  sudo nano /etc/prometheus/prometheus.yml
   ```
 
 - uncomment section for alert manager in this file as see below

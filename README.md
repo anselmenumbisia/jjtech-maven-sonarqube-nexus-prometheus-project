@@ -1,10 +1,10 @@
 ## Install jenkins
-- Create an Amazon Linux 2 VM instance and call it "jenkins-maven-ansible"
+- Create an Amazon Linux2023 VM instance and call it "jenkins-maven-ansible"
 - Instance type: t2.medium
 - Security Group (Open): 8080, 9100 and 22 to 0.0.0.0/0
 - Key pair: Select or create a new keypair
-- User data (Copy the following user data) from [here](https://github.com/anselmenumbisia/jjtech-ci-cd-pipeline-project-k8s/blob/main/installation-scripts/jenkins-ansible-git-terraform-docker.sh) 
-   
+- User data (Copy the following user data) from [here](https://github.com/anselmenumbisia/jjtech-maven-sonarqube-nexus-prometheus-project/blob/main/installations/jenkins-install.sh) 
+
 - Launch Instance   
   ### Access Jenkins
 - Copy your Jenkins Public IP Address and paste on the browser = ExternalIP:8080
@@ -41,19 +41,23 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
    - `mvn install`    (install the package into the local repository, for use as a dependency in other projects locally.)
 
 ## Install SonarQube
-- Launch ec2-instance with OS: ubuntu 20.04, type:t2.medium
+- Launch ec2-instance with OS: ubuntu 22.04, type:t2.medium
 - Security group should allow port 9000 for inbound traffic
 - User data (Copy the following user data) from [here](https://github.com/awanmbandi/eagles-batch-devops-projects/blob/maven-nexus-sonarqube-jenkins-install/sonarqube-install.sh)
 - Access sonarqube on port PUBLIC_IP:9000
 - click login and user username:admin and password:admin
 - create new project and provide any random name. Then click setup
-- Proivde name for token and generate token, select Java and then Maven.
+- Proivde name for token and generate token, select **`Java`** and then **`Maven`**.
 - Copy generated command and save token in a secure location.
-- Modify existing pipeline job to add the code snippet below
+- from Maven server, navigate to directory with source code for the sonarqube and nexus
+```bash
+cd /maven-sonarqube-nexus-project/practice-mvn-nexus-sonar/JavaWebApp
+```
+- Run command generated in previous step in maven server
    
 
 
-## Install Nexus Rrqubeepository Manager
+## Install Nexus Repository Manager
 - create ec2 intsnace, select linux2 OS, intance type: t2.medium and get userdata from link below. 
 - open port 8081 on secuirty group
 - User data (Copy the following user data) from [here](https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/nexus-install.sh)
@@ -151,7 +155,9 @@ Publishing artifact to Nexus snapshot and release repo using maven.
 - commit changes and push to repo
 - pull changes from within maven server
 5. copy settings.xml from within maven server into .m2 directory 
-- mv settings.xml ~/.m2
+```bash
+ mv ~/**replace with REPO_NAME**/settings.xml ~/.m2
+```
 
 6. Run the following `maven`/`mvn` command to deploy jar package to a remote repo.
    - `mvn deploy`     (done in an integration or release environment, copies the final package to the remote/SNAPSHOT repository 

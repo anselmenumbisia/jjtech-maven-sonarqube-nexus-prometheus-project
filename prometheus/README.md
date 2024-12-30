@@ -27,6 +27,7 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
   ``` 
   public-ip:9090
   ```
+# Install Node Exporter
 
 - ssh into app server  by using ssh or instance connect
 - Instal git and clone the github repo with source code(follow same steps as in previous stage above)
@@ -70,7 +71,35 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
 # Configure Service discovery for Prometheus
 - create two new ec2-instance for prometheus service discovery, OS=Ubuntu, instance_type=t2.nano. Allow inbound traffic on 9100
 - Associate IAM role for ec2 to the prometheus server. Ensure role has admin access
-- Update file with config from prometheus_serviveDiscovery.yml from cloned folder
+- Update file with config from prometheus_service Discovery.yml from cloned folder like this
+
+```bash
+global:
+  scrape_interval: 15s
+  external_labels:
+    monitor: 'prometheus'
+
+scrape_configs:
+  - job_name: 'node'
+    ec2_sd_configs:
+      - region: us-east-1
+        port: 9100
+
+#scrape_configs:
+ # - job_name: 'prometheus'
+  #  static_configs:
+   #   - targets: ['172.31.39.131:9100']
+
+# rule_files:
+#   - "alertmanager-rules.yml"
+
+# alerting:
+#   alertmanagers:
+#   - static_configs:
+#     - targets:
+#       - localhost:9093
+```
+
   ```
   sudo nano /etc/prometheus/prometheus.yml 
   ```
@@ -104,10 +133,25 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
   ```
   sudo systemctl status grafana-server.service
   ```
-- Edit inbound security group rule for prometheus server to allow traffic on port 3000
-- To access grafana on the UI, open a new tab on browser and enter < public_ip:3000 > 
-- default username and password is < admin >
-- Add a data source for grafana and point to prometheus server url
+- To access grafana on the UI, 
+```bash
+- Access Grafana: Open a web browser and go to http://<Grafana-EC2-IP>:3000/.
+- Login: Default username and password are both admin (you will be prompted to change the password).
+- Add Data Source:
+- Click on the gear icon (Settings) in the left sidebar.
+- Click on Data Sources.
+- Click the Add data source button.
+- Select Prometheus.
+- In the URL field, enter http://<Prometheus-EC2-IP>:9090.
+- Click Save & Test to verify the connection.
+ 1. Create Grafana Dashboards
+- Create a Dashboard:
+- Click the + icon in the left sidebar.
+- Click Dashboard.
+- Click Add new panel.
+- Configure the query and visualization options to display your Prometheus metrics.
+- Save the dashboard
+```
 
 ##
 - Grab grafana dashboards from here https://grafana.com/grafana/dashboards/ 
@@ -116,7 +160,7 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
 # Install prometheus alertmanager
 - ssh into prometheus server
 - edit inbound sg to allow traffic on port 9093
-- then navigate to th e prometheus folder by running
+- then navigate to the prometheus folder by running
 ```
 cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
 ```

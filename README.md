@@ -58,20 +58,20 @@ cd /maven-sonarqube-nexus-project/practice-mvn-nexus-sonar/JavaWebApp
 
 
 ## Install Nexus Repository Manager
-- create ec2 intsnace, select linux2 OS, intance type: t2.medium and get userdata from link below. 
-- open port 8081 on secuirty group
-- User data (Copy the following user data) from [here](https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/nexus-install.sh)
+- Launch ec2-instance with OS: ubuntu 22.04 SSD Volume type, type:t2.medium
+- Security group should allow port 8081 for inbound traffic
+- User data (Copy the following user data) from [here](https://github.com/anselmenumbisia/jjtech-maven-sonarqube-nexus-prometheus-project/blob/main/installations/nexus-install.sh)
 - access nexus on browser with PUBLIC_IP:8081
 - click on sign in on top right corner
 - username is "admin" : 
-- ssh into nexus server and navigate to path from step above to get password: 
+- ssh into nexus server and run command below to get the nexus intial password: 
 
 ```bash
-cat /opt/nexus/sonatype-work/nexus3/admin.password
+sudo docker exec nexus cat /nexus-data/admin.password
 ```
 
 - copy default password and paste in password section on nexus and sign in
-- when prompted to customise new password, use: "admin", 
+- when prompted to customise new password, use: "admin" OR any other password, 
 - Click on disable anonymous access and then Finish.
 - 
 ## Uploading Artifacts to Nexus Repository 

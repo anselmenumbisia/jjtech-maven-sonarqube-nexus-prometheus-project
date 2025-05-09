@@ -60,7 +60,7 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
   scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['localhost:9090', 'PRIVATE_IP_WEBSERVER:9100']
     ```
 - use ctrl x y enter to save and exit the nano editor
 - restart prometheus service by running 
